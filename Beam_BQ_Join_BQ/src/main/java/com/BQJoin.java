@@ -104,7 +104,7 @@ public class BQJoin {
 	  		    		if(a.values()!=null)
 	  		    		{
 	  		    	  		    		
-	  		    		for (int i = 0; i < Table_Schema.getTableSchema().size() ; i++) 
+	  		    		for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			row.set(col.getName(), a.get(col.getName()));
