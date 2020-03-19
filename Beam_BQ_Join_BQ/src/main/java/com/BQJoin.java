@@ -101,10 +101,12 @@ public class BQJoin {
 	  		    	
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
-	  		    		if(a!=null)
-	  		    		row=a;
+	  		    		if(a.values()!=null)
+	  		    		{
+	  		    		row=a;	
+	  		    		c.output(row.toString());
+	  		    		}
 	  		    	}
-	  		    	c.output(row.toString());
 	  		    }
   		    	
 	  	       //  {
