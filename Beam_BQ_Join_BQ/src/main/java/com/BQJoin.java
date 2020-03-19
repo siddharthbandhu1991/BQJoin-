@@ -17,6 +17,7 @@ import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.DoFn.ProcessContext;
+import org.apache.beam.sdk.transforms.DoFn.ProcessElement;
 import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.transforms.WithKeys;
 import org.apache.beam.sdk.transforms.join.CoGbkResult;
@@ -77,7 +78,56 @@ public class BQJoin {
 
 	  	
 	  //Final cogroup Result
-	  	coGbkResult.apply("ConverToBqRow",ParDo.of(new LeftJoin()))
+	  	coGbkResult.apply("ProcessResults", 
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
+	  	{
+	  		
+	  		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@ProcessElement
+	  		public void processElement(ProcessContext c) throws Exception {
+	  	  {	
+	  		   KV<String, CoGbkResult> e = c.element();
+	  		    
+	  		    String key=e.getKey();
+	  		  CoGbkResult result =  e.getValue();
+
+	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
+	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
+
+	  		    if(pt1Val != null & pt2Val != null) 
+	  	         {
+	  		    	
+	  		    	List<TableRow> list = new ArrayList<>();
+
+	  		    	list.addAll(pt1Val);
+	  		    	list.addAll(pt2Val);
+	  		    	//a. unique_key,a. complaint_type,a. complaint_description,b. status,b. status_change_date
+	  		    	TableRow list1 = list.get(0);
+	  		    	TableRow list2 = list.get(1);
+	  		    	
+	  		    	TableRow row = new TableRow();
+	  		    	
+	  		    	
+	  	          	//for (int i = 0; i < Table_Schema.class.getFields().length; i++) 
+	  	          	//{
+	  	          		
+	  	          	//	TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  	            //    row.set(col.getName(),list1.get(col.getName()));
+	  	         	//}
+	  	       
+	  		    	
+	  		    	
+	  		    	c.output(list1.toString());
+	  		    	
+	  	    	
+	  	         }
+	  	  		}
+	  	    }
+	  	  }))
 	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  //	.apply("WriteToBq", BigQueryIO.writeTableRows()
