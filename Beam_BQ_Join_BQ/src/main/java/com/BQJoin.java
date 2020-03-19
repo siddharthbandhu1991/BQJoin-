@@ -110,18 +110,18 @@ public class BQJoin {
 	  		    	TableRow list2 = list.get(1);
 	  		    	
 	  		    	TableRow row = new TableRow();
+	  		    	System.out.println(Table_Schema.fields.size());
 	  		    	
-	  		    	
-	  	          	//for (int i = 0; i < Table_Schema.class.getFields().length; i++) 
-	  	          	//{
+	  	          	for (int i = 0; i < Table_Schema.fields.size(); i++) 
+	  	          	{
 	  	          		
-	  	          	//	TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  	            //    row.set(col.getName(),list1.get(col.getName()));
-	  	         	//}
+	  	          		TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  	                row.set(col.getName(),list1.get(col.getName()));
+	  	         	}
 	  	       
 	  		    	
 	  		    	
-	  		    	c.output(list1.toString());
+	  		    	c.output(row.toString());
 	  		    	
 	  	    	
 	  	         }
@@ -130,9 +130,9 @@ public class BQJoin {
 	  	  }))
 	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
-	  //	.apply("WriteToBq", BigQueryIO.writeTableRows()
+	  	//.apply("WriteToBq", BigQueryIO.writeTableRows()
 	        //      .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	       //         .withWriteDisposition(WriteDisposition.WRITE_APPEND)
+	        //      .withWriteDisposition(WriteDisposition.WRITE_APPEND)
 	        //       .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
