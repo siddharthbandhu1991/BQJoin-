@@ -95,10 +95,15 @@ public class BQJoin {
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-	  		    if(pt1Val != null & pt2Val != null) 
+	  		  TableRow row = new TableRow();
+	  		  if(pt1Val != null & pt2Val != null) 
 	  		    {
-	  		    	TableRow tr =pt1Val.get(0);
-	  		    	c.output(tr.toString());
+	  		    	
+	  		    	for(TableRow a : pt1Val) 
+	  		    	{
+	  		    		row=a;
+	  		    	}
+	  		    	c.output(row.toString());
 	  		    }
   		    	
 	  	       //  {
