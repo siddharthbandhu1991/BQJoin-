@@ -98,15 +98,15 @@ public class BQJoin {
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-	  		    if(pt1Val != null & pt2Val != null) 
-	  	         {
+	  		    //if(pt1Val != null & pt2Val != null) 
+	  	       //  {
 
 	  		    	//a. unique_key,a. complaint_type,a. complaint_description,b. status,b. status_change_date
-	  		    	TableRow list1 = pt1Val.get(0);
-	  		    	TableRow list2 = pt2Val.get(0);
+	  		    //	TableRow list1 = pt1Val.get(0);
+	  		    //	TableRow list2 = pt2Val.get(1);
 	  		    	
-	  		    	TableRow row = new TableRow();
-	  		    	
+	  		    //	TableRow row = new TableRow();
+	  		    //	
 	  		    	
 	  		   //	for (int i = 0; i < 5; i++) 
 	          	{
@@ -116,12 +116,12 @@ public class BQJoin {
 	       
 	  		    	
 	  		    	
-	  		    	c.output(list1.toString());
+	  		    	c.output(pt1Val.toString());
 	  		    	
 	  	    	
 	  	         }
 	  	  		}
-	  	    }
+	  	    
 	  	  }))
 	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
