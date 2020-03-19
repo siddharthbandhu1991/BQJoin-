@@ -106,15 +106,14 @@ public class BQJoin {
 	  		    	TableRow list2 = pt2Val.get(0);
 	  		    	
 	  		    	TableRow row = new TableRow();
-	  		    	System.out.println(Table_Schema.getTableSchema().size());
 	  		    	
-	  	          	for (int i = 0; i < (Table_Schema.getTableSchema().size()); i++) 
-	  	          	{
-	  	          		
-	  	          		TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  	                row.set(col.getName(),list1.get(col.getName()));
-	  	         	}
-	  	       
+	  		    	
+	  		   	for (int i = 0; i < 5; i++) 
+	          	{
+	             TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	             row.set(col.getName(), list1.get(col.getName()));
+	         	}
+	       
 	  		    	
 	  		    	
 	  		    	c.output(row.toString());
