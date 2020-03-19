@@ -26,7 +26,7 @@ public final class DefineProperties
 		
 		options.setMaxNumWorkers(Integer.parseInt(PropertyUtil.getProperty("dataflow.job.worker")));
 
-		//options.setRunner(DataflowRunner.class);
+		options.setRunner(DataflowRunner.class);
 
 
 	}
