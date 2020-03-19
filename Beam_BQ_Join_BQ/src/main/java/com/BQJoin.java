@@ -79,7 +79,7 @@ public class BQJoin {
 	  	
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
-	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
 	  	{
 
 			private static final long serialVersionUID = 1L;
@@ -110,40 +110,20 @@ public class BQJoin {
 	  		    			row.set(col.getName(), a.get(col.getName()));
 	  		    			}
 	  		    		
-	  		    		c.output(row.toString());
+	  		    		c.output(row);
 	  		    		}
 	  		    	}
-	  		    }
-  		    	
-	  	       //  {
-
-	  		    	//a. unique_key,a. complaint_type,a. complaint_description,b. status,b. status_change_date
-	  		    //	TableRow list1 = pt1Val.get(0);
-	  		    //	TableRow list2 = pt2Val.get(1);
-	  		    	
-	  		    //	TableRow row = new TableRow();
-	  		    //	
-	  		    	
-	  		   //	for (int i = 0; i < 5; i++) 
-	        
-	             //TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	             //row.set(col.getName(), list1.get(col.getName()));
-	       
-	       
-	  		    	
-	  		    	
-	  		    	
-	  	    	
+	  		      } 	
 	  	         }
 	  	  		}
 	  	    
 	  	  }))
-	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
-	  	//.apply("WriteToBq", BigQueryIO.writeTableRows()
-	        //      .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	        //      .withWriteDisposition(WriteDisposition.WRITE_APPEND)
-	        //       .withCreateDisposition(CreateDisposition.CREATE_NEVER));
+	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
+	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
+	             .withWriteDisposition(WriteDisposition.WRITE_APPEND)
+	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
 
