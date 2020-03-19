@@ -100,19 +100,15 @@ public class BQJoin {
 
 	  		    if(pt1Val != null & pt2Val != null) 
 	  	         {
-	  		    	
-	  		    	List<TableRow> list = new ArrayList<>();
 
-	  		    	list.addAll(pt1Val);
-	  		    	list.addAll(pt2Val);
 	  		    	//a. unique_key,a. complaint_type,a. complaint_description,b. status,b. status_change_date
-	  		    	TableRow list1 = list.get(0);
-	  		    	TableRow list2 = list.get(1);
+	  		    	TableRow list1 = pt1Val.get(0);
+	  		    	TableRow list2 = pt2Val.get(0);
 	  		    	
 	  		    	TableRow row = new TableRow();
-	  		    	System.out.println(Table_Schema.fields.size());
+	  		    	System.out.println(Table_Schema.getTableSchema().size());
 	  		    	
-	  	          	for (int i = 0; i < Table_Schema.fields.size(); i++) 
+	  	          	for (int i = 0; i < (Table_Schema.getTableSchema().size()); i++) 
 	  	          	{
 	  	          		
 	  	          		TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
