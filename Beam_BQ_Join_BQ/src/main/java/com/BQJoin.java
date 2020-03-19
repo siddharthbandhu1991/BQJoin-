@@ -103,7 +103,13 @@ public class BQJoin {
 	  		    	{
 	  		    		if(a.values()!=null)
 	  		    		{
-	  		    		row=a;	
+	  		    	  		    		
+	  		    		for (int i = 0; i < Table_Schema.getTableSchema().size() ; i++) 
+	  		    			{
+	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    			}
+	  		    		
 	  		    		c.output(row.toString());
 	  		    		}
 	  		    	}
@@ -119,10 +125,10 @@ public class BQJoin {
 	  		    //	
 	  		    	
 	  		   //	for (int i = 0; i < 5; i++) 
-	          	{
+	        
 	             //TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
 	             //row.set(col.getName(), list1.get(col.getName()));
-	         	}
+	       
 	       
 	  		    	
 	  		    	
