@@ -108,15 +108,15 @@ public class BQJoin {
 	  		    	TableRow row = new TableRow();
 	  		    	
 	  		    	
-	  		   	for (int i = 0; i < 5; i++) 
+	  		   //	for (int i = 0; i < 5; i++) 
 	          	{
-	             TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	             row.set(col.getName(), list1.get(col.getName()));
+	             //TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	             //row.set(col.getName(), list1.get(col.getName()));
 	         	}
 	       
 	  		    	
 	  		    	
-	  		    	c.output(row.toString());
+	  		    	c.output(list1.toString());
 	  		    	
 	  	    	
 	  	         }

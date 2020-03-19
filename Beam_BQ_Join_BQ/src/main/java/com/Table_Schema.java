@@ -9,10 +9,9 @@ import com.google.api.services.bigquery.model.TableSchema;
 
 public class Table_Schema 
 {
-	static final List<TableFieldSchema> fields = new ArrayList<TableFieldSchema>();
-	
+
 	  static TableSchema getTableSchema() {
-	        
+		   List<TableFieldSchema> fields = new ArrayList<TableFieldSchema>();
 	        
 	        fields.add(new TableFieldSchema().setName("unique_key").setType("STRING"));
 	        fields.add(new TableFieldSchema().setName("complaint_type").setType("STRING"));
