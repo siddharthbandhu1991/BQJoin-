@@ -81,10 +81,7 @@ public class BQJoin {
 	  	coGbkResult.apply("ProcessResults", 
 	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
 	  	{
-	  		
-	  		/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@ProcessElement
@@ -93,12 +90,17 @@ public class BQJoin {
 	  		   KV<String, CoGbkResult> e = c.element();
 	  		    
 	  		    String key=e.getKey();
-	  		  CoGbkResult result =  e.getValue();
+	  		    CoGbkResult result =  e.getValue();
 
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-	  		    //if(pt1Val != null & pt2Val != null) 
+	  		    if(pt1Val != null & pt2Val != null) 
+	  		    {
+	  		    	TableRow tr =pt1Val.get(0);
+	  		    	c.output(tr.toString());
+	  		    }
+  		    	
 	  	       //  {
 
 	  		    	//a. unique_key,a. complaint_type,a. complaint_description,b. status,b. status_change_date
@@ -116,7 +118,6 @@ public class BQJoin {
 	       
 	  		    	
 	  		    	
-	  		    	c.output(pt1Val.toString());
 	  		    	
 	  	    	
 	  	         }
