@@ -110,25 +110,24 @@ public class BQJoin {
 	  		    {
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
-	  		    		for(TableRow b : pt2Val) 
-		  		    	{
-	  		    		 if(a.values()!=null && b.values()!=null)
-	  		    		 {	    		
-	  		    		   for (int i = 0; i < 5 ; i++) 
+	  		    		if(a.values()!=null)
+	  		    		{	    		
+	  		    		for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			if(a.get(col.getName())==b.get(col.getName()))
+	  		    			if(key==a.get(col.getName()).toString())
 	  		    			{
-	  		    				row.set(col.getName(), a.get(col.getName()));
-	  		    				c.output(row);
-	  		    			}
-	  		    		   }
+	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    			c.output(row);
+	  		    			
+	  		    			}}
+	  		    		
 	  		    		}
-		  		    }
 	  		    	}
+	  		      } 	
 	  	         }
 	  	  		}
-			}
+	  	    
 	  	  }))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
