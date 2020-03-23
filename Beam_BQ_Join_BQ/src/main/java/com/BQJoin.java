@@ -100,50 +100,35 @@ public class BQJoin {
 	  		    String key=e.getKey();
 	  		    CoGbkResult result =  e.getValue();
 
-	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
-	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-	  		  TableRow row = new TableRow();
-	  		  int n=0;
-	  		  String key1 = "";
-	  		  
-	  		  if(pt1Val != null && pt2Val != null ) 
-	  		    {
-	  			/*
-	  		    	for(TableRow a : pt1Val) 
-	  		    	{
-	  		    		if(a.values()!=null)
-	  		    		{	    		
-	  		    		for (int i = 0; i < 1 ; i++) 
-	  		    			{
-	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			row.set(col.getName(), a.get(col.getName()));
-	  		    			n=n+1;
-	  		    		    }
-	  		    	     }
-	  		    		//c.output(row);
-	  		    	 }*/
-	  		    	
-	  		    	for(TableRow b : pt2Val) 
-	  		    	{
-	  		    		if(b.values()!=null)
-	  		    		{	    		
-	  		    		for (int i = 0; i < 1 ; i++) 
-	  		    			{
-	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			row.set(col.getName(), b.get(col.getName()));
-	  		    			n=n+1;
-	  		    			}
-	  		    	     }
-	  		    	 }
-	  		    	
+	  		  Iterable<TableRow>  pt1Val = result.getAll(table1Tag);
+	  		  Iterable<TableRow>  pt2Val = result.getAll(table2Tag);
 
-	  		    		c.output(row);
-		
-	  		    		
-	  		    	}
-	  		    	
-	  		    	}}}))
+	  	     for (TableRow tr : pt1Val)
+	  	      {
+	  	        TableRow out = tr.clone();
+	  	        if(pt2Val.iterator().hasNext())
+	  	        {
+	  	            for (TableRow tr1 : pt2Val)
+	  	            {
+	  	                //out.putAll(tr1);
+	  	            	for (int i = 0; i < 1 ; i++) 
+  		    			{
+  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+  		    			out.set(col.getName(), tr1.get(col.getName()));
+  		    		    }
+	  	                c.output(out);
+	  	            }
+	  	        }
+	  	        else
+	  	        {
+	  	            c.output(out);
+	  	        }
+
+	  	      }
+
+
+	  		    }}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
