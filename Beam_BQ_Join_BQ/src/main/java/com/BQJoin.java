@@ -117,18 +117,13 @@ public class BQJoin {
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
 
 	  		    			row.set(col.getName(), a.get(col.getName()));
-	  		    			c.output(row);
-	  		    			
-	  		    			
-	  		    		}
-	  		    		}
-	  		    	}
+	  		    		    }
+	  		    	     }
+	  		    	 }
 	  		    	c.output(row);
 	  		      } 	
 	  	         }
-	  	  		}
-	  	    
-	  	  }))
+	  	  		}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
