@@ -88,7 +88,7 @@ public class BQJoin {
 	  
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
-	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
 	  	{
 
 			private static final long serialVersionUID = 1L;
@@ -99,18 +99,20 @@ public class BQJoin {
 	  		   KV<String, CoGbkResult> e = c.element();
 	  		    
 	  		    String key=e.getKey();
-	  		 
-	  		    			
-	  		    c.output(key);
-	
+
+	  		  TableRow row = new TableRow();
+	  		  	row.set("unique_key", key);
+	  		  		c.output(row); 	
+	  	         }
+	  	  		}
 	  	    
-	  	  }}}))
-	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
-	  	/*
+	  	  }))
+	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
 	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
 	             .withWriteDisposition(WriteDisposition.WRITE_APPEND)
-	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));*/
+	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
 
