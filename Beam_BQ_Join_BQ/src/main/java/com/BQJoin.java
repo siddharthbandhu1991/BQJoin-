@@ -65,11 +65,6 @@ public class BQJoin {
 	  	PCollection<KV<String, TableRow>> table2Rows = pipeline
 		  		.apply("ReadTable2",BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query2")))
 		  	    .apply("WithKeys", joinkey);
-	  	
-	  	PCollection<KV<String, TableRow>> table3Rows = pipeline
-		  		.apply("ReadTable2",BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query2")))
-		  	    .apply("WithKeys", joinkey);
-
 
 		final TupleTag<TableRow> table1Tag = new TupleTag<>();
 	  	final TupleTag<TableRow> table2Tag = new TupleTag<>();
