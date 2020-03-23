@@ -52,10 +52,11 @@ public class BQJoin {
 	  	
 	  	WithKeys<String, TableRow> joinkey = WithKeys.of(
 	  		    (TableRow row) ->
-	  		        String.format("%s",
+	  		        String.format("%s#%s",
 	  		            row.get(key)))
 	  		    .withKeyType(TypeDescriptors.strings());
 	  	
+	
 	  	
 	  	PCollection<KV<String, TableRow>> table1Rows = pipeline
 	  		    .apply("ReadTable1",BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query1")))
@@ -67,15 +68,45 @@ public class BQJoin {
 
 		final TupleTag<TableRow> table1Tag = new TupleTag<>();
 	  	final TupleTag<TableRow> table2Tag = new TupleTag<>();
+
 	  	 	
 	  //Merge collection values into a CoGbkResult collection
 	  	PCollection<KV<String, CoGbkResult>> coGbkResult = KeyedPCollectionTuple
 	  	    .of(table1Tag, table1Rows)
 	  	    .and(table2Tag, table2Rows)
+	  	    .and(table2Tag, table2Rows)
 	  	    .apply("joinkey", CoGroupByKey.create());
 	  	
 	  	
+	  	coGbkResult.apply("ProcessResults", 
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
+	  	{
 
+			private static final long serialVersionUID = 1L;
+
+			@ProcessElement
+	  		public void processElement(ProcessContext c) throws Exception {
+	  	  {	
+	  		   KV<String, CoGbkResult> e = c.element();
+	  		    
+	  		    //String key=e.getKey();
+	  		    //CoGbkResult result =  e.getValue();
+
+	  		    		
+	  		    		c.output(c.element().toString());
+	  		  	
+	  	         }
+	  	  		}
+	  	    
+	  	  }))
+	  	
+	  	
+	  	
+	  	
+	  	.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  	
+	  	
+	  	/*
 	  	
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
@@ -107,6 +138,7 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			
 	  		    			row.set(col.getName(), a.get(col.getName()));
 	  		    			}
 	  		    		
@@ -125,10 +157,11 @@ public class BQJoin {
 	             .withWriteDisposition(WriteDisposition.WRITE_APPEND)
 	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
-
+*/
 
 
 	  	pipeline.run().waitUntilFinish();
 	}
 
 }
+
