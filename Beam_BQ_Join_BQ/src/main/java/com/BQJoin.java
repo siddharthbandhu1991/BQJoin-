@@ -122,6 +122,11 @@ public class BQJoin {
 	  	        }
 	  	        else
 	  	        {
+	  	        	for (int i = 0; i < 1 ; i++) 
+		    			{
+		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+		    			out.set(col.getName(), tr.get(col.getName()));
+		    		    }
 	  	            c.output(out);
 	  	        }
 
