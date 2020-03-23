@@ -68,13 +68,14 @@ public class BQJoin {
 
 		final TupleTag<TableRow> table1Tag = new TupleTag<>();
 	  	final TupleTag<TableRow> table2Tag = new TupleTag<>();
+	  	final TupleTag<TableRow> table3Tag = new TupleTag<>();
 
 	  	 	
 	  //Merge collection values into a CoGbkResult collection
 	  	PCollection<KV<String, CoGbkResult>> coGbkResult = KeyedPCollectionTuple
 	  	    .of(table1Tag, table1Rows)
 	  	    .and(table2Tag, table2Rows)
-	  	    .and(table2Tag, table2Rows)
+	  	    .and(table3Tag, table2Rows)
 	  	    .apply("joinkey", CoGroupByKey.create());
 	  	
 	  	
