@@ -77,12 +77,11 @@ public class BQJoin {
 	  	    .and(table2Tag, table2Rows)
 	  	    //.and(table3Tag, table3Rows)
 	  	    .apply("joinkey", CoGroupByKey.create());
-	  	
-
-	  	
-	  	
-	  	
-	  //	.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  	    
+	  	    
+	  	    
+	  	    
+	  	    //.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	
 	  
@@ -110,7 +109,7 @@ public class BQJoin {
 	  		  
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
-	  			
+	  			/*
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
@@ -118,13 +117,12 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			key1=a.get(col.getName()).toString();
 	  		    			row.set(col.getName(), a.get(col.getName()));
 	  		    			n=n+1;
 	  		    		    }
 	  		    	     }
 	  		    		//c.output(row);
-	  		    	 }
+	  		    	 }*/
 	  		    	
 	  		    	for(TableRow b : pt2Val) 
 	  		    	{
@@ -133,20 +131,19 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			if(key1==b.get(col.getName()).toString())
-	  		    			{
 	  		    			row.set(col.getName(), b.get(col.getName()));
 	  		    			n=n+1;
 	  		    			}
 	  		    	     }
 	  		    	 }
 	  		    	
-	  		    	if(n==2)
-	  		    	{c.output(row);}		
+
+	  		    		c.output(row);
+		
 	  		    		
 	  		    	}
 	  		    	
-	  		    	}}}}))
+	  		    	}}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
