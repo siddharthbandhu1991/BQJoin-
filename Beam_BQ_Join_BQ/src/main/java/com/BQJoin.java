@@ -99,10 +99,32 @@ public class BQJoin {
 	  		   KV<String, CoGbkResult> e = c.element();
 	  		    
 	  		    String key=e.getKey();
+	  		    CoGbkResult result =  e.getValue();
+
+	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
+	  		    //List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
 	  		  TableRow row = new TableRow();
-	  		  	row.set("unique_key", key);
-	  		  		c.output(row); 	
+	  		  
+	  		  if(pt1Val != null) 
+	  		    {
+	  		    	for(TableRow a : pt1Val) 
+	  		    	{
+	  		    		if(a.values()!=null)
+	  		    		{	    		
+	  		    		for (int i = 0; i < 1 ; i++) 
+	  		    			{
+	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			if(key==a.get(col.getName()).toString())
+	  		    			{
+	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    			c.output(row);
+	  		    			
+	  		    			}}
+	  		    		
+	  		    		}
+	  		    	}
+	  		      } 	
 	  	         }
 	  	  		}
 	  	    
