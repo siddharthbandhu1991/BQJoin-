@@ -142,7 +142,6 @@ public class BQJoin {
 		  	
 
 
-
 	  	pipeline.run().waitUntilFinish();
 	}
 
