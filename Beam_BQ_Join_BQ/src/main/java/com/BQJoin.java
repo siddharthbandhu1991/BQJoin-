@@ -118,11 +118,13 @@ public class BQJoin {
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			key1=a.get(col.getName()).toString();
+	  		    			row.set(col.getName(), a.get(col.getName()));
 	  		    			n=n+1;
 	  		    		    }
 	  		    	     }
+	  		    		c.output(row);
 	  		    	 }
-	  		    	
+	  		    	/*
 	  		    	for(TableRow b : pt2Val) 
 	  		    	{
 	  		    		if(b.values()!=null)
@@ -139,9 +141,9 @@ public class BQJoin {
 	  		    	 }
 	  		    	
 	  		    	if(n==2)
-	  		    	{c.output(row);}		
+	  		    	{c.output(row);}*/		
 	  		    		
-	  		    	}}}}}))
+	  		    	}}}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
