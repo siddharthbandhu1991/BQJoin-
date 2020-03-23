@@ -109,9 +109,11 @@ public class BQJoin {
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
 	  		    	for(TableRow a : pt1Val) 
+	  		    	{
 	  		    		if(key==a.get(PropertyUtil.getProperty("dataflow.job.joinkey")).toString())
-	  		    				row.set(a.get(PropertyUtil.getProperty("dataflow.job.joinkey")).toString(), key);
+	  		    				row.set(PropertyUtil.getProperty("dataflow.job.joinkey").toString(),a.get(PropertyUtil.getProperty("dataflow.job.joinkey")));
 	  		    			c.output(row);
+	  		    	}
 		  		    			}
 	  		    			}
 	  		    		}
