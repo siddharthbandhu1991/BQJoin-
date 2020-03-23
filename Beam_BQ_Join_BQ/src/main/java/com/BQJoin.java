@@ -108,6 +108,7 @@ public class BQJoin {
 	  		  
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
+	  			  int n=0;
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
@@ -115,12 +116,20 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-
-	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    			if(key==a.get(col.getName()).toString())
+	  		    				{
+	  		    				n=n+1;
+	  		    				row.set(col.getName(), a.get(col.getName()));
+	  		    				c.output(row);
+	  		    				}
+	  		    				
 	  		    		    }
 	  		    	     }
+	  		    		
 	  		    	 }
-	  		    	c.output(row);
+	  		    	
+	  		    	
+	  		    	
 	  		      } 	
 	  	         }
 	  	  		}}))
