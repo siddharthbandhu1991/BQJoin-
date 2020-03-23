@@ -105,24 +105,30 @@ public class BQJoin {
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
 	  		  TableRow row = new TableRow();
+	  		  
 	  		  if(pt1Val != null && pt2Val != null) 
 	  		    {
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
-	  		    		if(a.values()!=null)
-	  		    		{	    		
-	  		    		for (int i = 0; i < 5 ; i++) 
+	  		    		for(TableRow b : pt2Val) 
+		  		    	{
+	  		    		 if(a.values()!=null && b.values()!=null)
+	  		    		 {	    		
+	  		    		   for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    			if(a.get(col.getName())==b.get(col.getName()))
+	  		    			{
+	  		    				row.set(col.getName(), a.get(col.getName()));
+	  		    				c.output(row);
 	  		    			}
-	  		    		c.output(row);
+	  		    		   }
 	  		    		}
+		  		    }
 	  		    	}
-	  		      } 	
 	  	         }
 	  	  		}
-	  	    
+			}
 	  	  }))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
