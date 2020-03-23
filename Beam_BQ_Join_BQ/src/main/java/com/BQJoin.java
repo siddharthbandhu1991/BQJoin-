@@ -105,11 +105,12 @@ public class BQJoin {
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
 	  		  TableRow row = new TableRow();
+	  		  int n=0;
+	  		  String key1 = "";
 	  		  
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
-	  			  int n=0;
-	  			String key1 = null;
+	  			
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
@@ -122,9 +123,9 @@ public class BQJoin {
 	  		    			n=n+1;
 	  		    		    }
 	  		    	     }
-	  		    		c.output(row);
+	  		    		//c.output(row);
 	  		    	 }
-	  		    	/*
+	  		    	
 	  		    	for(TableRow b : pt2Val) 
 	  		    	{
 	  		    		if(b.values()!=null)
@@ -141,8 +142,10 @@ public class BQJoin {
 	  		    	 }
 	  		    	
 	  		    	if(n==2)
-	  		    	{c.output(row);}*/		
+	  		    	{c.output(row);}		
 	  		    		
+	  		    	}
+	  		    	
 	  		    	}}}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
