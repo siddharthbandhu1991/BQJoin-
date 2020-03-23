@@ -109,6 +109,7 @@ public class BQJoin {
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
 	  			  int n=0;
+	  			String key1 = null;
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
@@ -116,23 +117,31 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			if(key==a.get(col.getName()).toString())
-	  		    				{
-	  		    				n=n+1;
-	  		    				row.set(col.getName(), a.get(col.getName()));
-	  		    				c.output(row);
-	  		    				}
-	  		    				
+	  		    			key1=a.get(col.getName()).toString();
+	  		    			n=n+1;
 	  		    		    }
 	  		    	     }
-	  		    		
 	  		    	 }
 	  		    	
+	  		    	for(TableRow b : pt2Val) 
+	  		    	{
+	  		    		if(b.values()!=null)
+	  		    		{	    		
+	  		    		for (int i = 0; i < 1 ; i++) 
+	  		    			{
+	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			if(key1==b.get(col.getName()).toString())
+	  		    			{
+	  		    			row.set(col.getName(), b.get(col.getName()));
+	  		    			n=n+1;
+	  		    			}
+	  		    	     }
+	  		    	 }
 	  		    	
-	  		    	
-	  		      } 	
-	  	         }
-	  	  		}}))
+	  		    	if(n==2)
+	  		    	{c.output(row);}		
+	  		    		
+	  		    	}}}}}))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
