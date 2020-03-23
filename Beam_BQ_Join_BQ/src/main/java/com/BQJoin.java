@@ -100,7 +100,7 @@ public class BQJoin {
 	  		    
 	  		    String key=e.getKey();
 	  		    CoGbkResult result =  e.getValue();
-
+	  		    
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
@@ -109,26 +109,17 @@ public class BQJoin {
 	  		  if(pt1Val != null && pt2Val != null ) 
 	  		    {
 	  		    	for(TableRow a : pt1Val) 
-	  		    	{
-	  		    	  for(TableRow b : pt2Val) 
-	  		    		{
-	  		    		if(a.values()!=null && b.values()!=null)
-	  		    		{	    		
-	  		    		for (int i = 0; i < 1 ; i++) 
-	  		    			{
-	  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			if(key==a.get(col.getName()).toString() && key==b.get(col.getName()).toString())
-	  		    			{
-	  		    			row.set(col.getName(), a.get(col.getName()));
+	  		    		if(key==a.get(PropertyUtil.getProperty("dataflow.job.joinkey")).toString())
+	  		    				row.set(a.get(PropertyUtil.getProperty("dataflow.job.joinkey")).toString(), key);
 	  		    			c.output(row);
 		  		    			}
 	  		    			}
 	  		    		}
-	  		    		}
-	  		    	}
-	  		      } 	
-	  	         }
-	  	  		}
+	  		    		
+	  		    	
+	  		      	
+	  	         
+	  	  		
 	  	    
 	  	  }))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
