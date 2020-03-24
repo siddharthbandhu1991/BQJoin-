@@ -14,10 +14,10 @@ public class Table_Schema
 		   List<TableFieldSchema> fields = new ArrayList<TableFieldSchema>();
 	        
 	        fields.add(new TableFieldSchema().setName("unique_key").setType("STRING"));
-	       // fields.add(new TableFieldSchema().setName("complaint_type").setType("STRING"));
-	       // fields.add(new TableFieldSchema().setName("complaint_description").setType("STRING"));
-	        //fields.add(new TableFieldSchema().setName("status").setType("STRING"));
-	       // fields.add(new TableFieldSchema().setName("status_change_date").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("complaint_type").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("complaint_description").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("status").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("status_change_date").setType("STRING"));
 
 	        return new TableSchema().setFields(fields);
 	    }

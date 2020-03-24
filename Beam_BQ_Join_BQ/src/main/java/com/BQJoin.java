@@ -87,7 +87,7 @@ public class BQJoin {
 	  
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
-	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
 	  	{
 
 			private static final long serialVersionUID = 1L;
@@ -119,7 +119,7 @@ public class BQJoin {
 	  		    	{
 	  		    		if(a.values()!=null)
 	  		    		{    		
-	  		    		for (int i = 0; i < 1 ; i++) 
+	  		    		for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			 row.set(col.getName(), a.get(col.getName()));
@@ -132,7 +132,7 @@ public class BQJoin {
   		    	{
   		    		if(b.values()!=null)
   		    		{    		
-  		    		for (int i = 0; i < 1 ; i++) 
+  		    		for (int i = 0; i < 5 ; i++) 
   		    			{
   		    			 col1 = Table_Schema.getTableSchema().getFields().get(i);
   		    			 row1.set(col1.getName(), b.get(col1.getName()));
@@ -143,23 +143,28 @@ public class BQJoin {
 	  		    	
 	  		  	//Right Outer Join
 	  		    	//if(row.isEmpty())	
-	  		    		//{c.output(key+"  "+row.toString()+"  "+row1.toString());}
+	  		    		//{c.output(row);}
 	  		    	
 	  		    //Left Outer Join
-	  		    	if(row1.isEmpty())	
-	  		    		{c.output(key+"  "+row.toString()+"  "+row1.toString());}
+	  		    	//if(row1.isEmpty())	
+	  		    		//{c.output(row1);}
+	  		  	
+	  		    //Inner Join
+  		        	if(!row.isEmpty() && !row1.isEmpty())	
+  		    	    	{c.output(row);}
+	  
 	  	
 	  		      } 	
 	  	         }
 	  	  		}
 	  	    
 	  	  }))
-	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
-	  	//.apply("WriteToBq", BigQueryIO.writeTableRows()
-	      //       .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	        //     .withWriteDisposition(WriteDisposition.WRITE_APPEND)
-	          //    .withCreateDisposition(CreateDisposition.CREATE_NEVER));
+	  	  .apply("WriteToBq", BigQueryIO.writeTableRows()
+	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
+	            .withWriteDisposition(WriteDisposition.WRITE_APPEND)
+	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
 
