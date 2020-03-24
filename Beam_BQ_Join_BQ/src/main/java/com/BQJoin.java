@@ -95,16 +95,43 @@ public class BQJoin {
 			@ProcessElement
 	  		public void processElement(ProcessContext c) throws Exception {
 	  	  {	
-	  		   //KV<String, CoGbkResult> e = c.element().getValue();
+	  		  //KV<String, CoGbkResult> e = c.element().getValue();
 	  		    
 	  		    String key=c.element().getKey();
 	  		   
 	  		    CoGbkResult result =  c.element().getValue();
+	  		 
 
-	  		    c.output(key);
+	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
+	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-
-	  		    }}}))
+	  		  TableRow row = new TableRow();
+	  		  TableFieldSchema col = new TableFieldSchema();
+	  		  if(pt1Val != null & pt2Val != null) 
+	  		    {
+	  		    	
+	  		    	for(TableRow a : pt1Val) 
+	  		    	{
+	  		    		if(a.values()!=null)
+	  		    		{
+	  		    	  		    		
+	  		    		for (int i = 0; i < 5 ; i++) 
+	  		    			{
+	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			
+	  		    			 row.set(col.getName(), a.get(col.getName()));
+	  		    			}
+	  		    		
+	  		    	
+	  		    		
+	  		    		c.output(key+"  "+row.toString());
+	  		    		}
+	  		    	}
+	  		      } 	
+	  	         }
+	  	  		}
+	  	    
+	  	  }))
 	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
 	  	//.apply("WriteToBq", BigQueryIO.writeTableRows()
