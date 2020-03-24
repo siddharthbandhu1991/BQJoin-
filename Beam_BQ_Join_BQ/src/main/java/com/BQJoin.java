@@ -95,12 +95,13 @@ public class BQJoin {
 			@ProcessElement
 	  		public void processElement(ProcessContext c) throws Exception {
 	  	  {	
-	  		   KV<String, CoGbkResult> e = c.element();
+	  		   //KV<String, CoGbkResult> e = c.element().getValue();
 	  		    
-	  		    String key=e.getKey();
-	  		    CoGbkResult result =  e.getValue();
+	  		    String key=c.element().getKey();
+	  		   
+	  		    CoGbkResult result =  c.element().getValue();
 
-	  		    c.output(c.element().toString());
+	  		    c.output(key);
 
 
 	  		    }}}))
