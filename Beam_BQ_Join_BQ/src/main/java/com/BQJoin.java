@@ -87,7 +87,7 @@ public class BQJoin {
 	  
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
-	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
+	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, String>()
 	  	{
 
 			private static final long serialVersionUID = 1L;
@@ -100,46 +100,16 @@ public class BQJoin {
 	  		    String key=e.getKey();
 	  		    CoGbkResult result =  e.getValue();
 
-
-	  		  Iterable<TableRow>  pt1Val = result.getAll(table1Tag);
-	  		  Iterable<TableRow>  pt2Val = result.getAll(table2Tag);
-
-	  	     for (TableRow tr : pt1Val)
-	  	      {
-	  	        TableRow out = tr.clone();
-	  	        if(pt2Val.iterator().hasNext())
-	  	        {
-	  	            for (TableRow tr1 : pt2Val)
-	  	            {
-	  	                //out.putAll(tr1);
-	  	            	for (int i = 0; i < 1 ; i++) 
-  		    			{
-  		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-  		    			out.set(col.getName(), tr1.get(col.getName()));
-  		    		    }
-	  	                c.output(out);
-	  	            }
-	  	        }
-	  	        else
-	  	        {
-	  	        	for (int i = 0; i < 1 ; i++) 
-		    			{
-		    			TableFieldSchema col = Table_Schema.getTableSchema().getFields().get(i);
-		    			out.set(col.getName(), tr.get(col.getName()));
-		    		    }
-	  	            c.output(out);
-	  	        }
-
-	  	      }
+	  		    c.output(c.element().toString());
 
 
 	  		    }}}))
-	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
+	  		.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
-	  	.apply("WriteToBq", BigQueryIO.writeTableRows()
-	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	             .withWriteDisposition(WriteDisposition.WRITE_APPEND)
-	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
+	  	//.apply("WriteToBq", BigQueryIO.writeTableRows()
+	      //       .to(PropertyUtil.getProperty("dataflow.job.tablename"))
+	        //     .withWriteDisposition(WriteDisposition.WRITE_APPEND)
+	          //    .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
 
