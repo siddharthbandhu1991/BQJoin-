@@ -95,11 +95,11 @@ public class BQJoin {
 			@ProcessElement
 	  		public void processElement(ProcessContext c) throws Exception {
 	  	  {	
-	  		  //KV<String, CoGbkResult> e = c.element().getValue();
+	  		    KV<String, CoGbkResult> e = c.element();
 	  		    
 	  		    String key=c.element().getKey();
 	  		   
-	  		    CoGbkResult result =  c.element().getValue();
+	  		    CoGbkResult result =  e.getValue();
 	  		 
 
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
