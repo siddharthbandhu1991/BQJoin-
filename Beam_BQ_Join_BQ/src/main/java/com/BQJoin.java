@@ -132,7 +132,7 @@ public class BQJoin {
   		    		for (int i = 0; i < 1 ; i++) 
   		    			{
   		    			 col = Table_Schema.getTableSchema().getFields().get(i);
-  		    			 row.set(col.getName(), b.get(col.getName()));
+  		    			 row1.set(col.getName(), b.get(col.getName()));
   		    			}
   		    		
   		    		}
