@@ -96,20 +96,17 @@ public class BQJoin {
 	  		public void processElement(ProcessContext c) throws Exception {
 	  	  {	
 	  		    KV<String, CoGbkResult> e = c.element();
-	  		    
 	  		    String key=c.element().getKey();
-	  		   
 	  		    CoGbkResult result =  e.getValue();
-	  		 
-
+	  		    
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
-	  		  TableRow row = new TableRow();
-	  		  TableRow row1 = new TableRow();
+	  		    TableRow row = new TableRow();
+	  		    TableRow row1 = new TableRow();
 	  		  
-	  		  TableFieldSchema col = new TableFieldSchema();
-	  		  TableFieldSchema col1 = new TableFieldSchema();
+	  		    TableFieldSchema col = new TableFieldSchema();
+	  		    TableFieldSchema col1 = new TableFieldSchema();
 	  		  
 	  			  		  
 	  		  if(pt1Val != null & pt2Val != null) 
