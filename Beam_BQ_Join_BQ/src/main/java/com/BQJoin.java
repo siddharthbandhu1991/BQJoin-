@@ -160,7 +160,7 @@ public class BQJoin {
 	  	
 	  	  .apply("WriteToBq", BigQueryIO.writeTableRows()
 	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	            .withWriteDisposition(WriteDisposition.WRITE_APPEND)
+	            .withWriteDisposition(WriteDisposition.WRITE_TRUNCATE)
 	              .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 
