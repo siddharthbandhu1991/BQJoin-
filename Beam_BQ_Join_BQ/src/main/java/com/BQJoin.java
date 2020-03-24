@@ -76,7 +76,7 @@ public class BQJoin {
 	  	    .apply("joinkey", CoGroupByKey.create());
 	  	    
 	  	
-	  //Final cogroup Result
+	  //Final coGroup Result
 	  	coGbkResult.apply("ProcessResults", 
 	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
 	  	{
