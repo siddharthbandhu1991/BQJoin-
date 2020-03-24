@@ -141,10 +141,14 @@ public class BQJoin {
   		    		}
   		    	}
 	  		    	
-	  		    	if(row.isEmpty())	
+	  		  	//Right Outer Join
+	  		    	//if(row.isEmpty())	
+	  		    		//{c.output(key+"  "+row.toString()+"  "+row1.toString());}
+	  		    	
+	  		    //Left Outer Join
+	  		    	if(row1.isEmpty())	
 	  		    		{c.output(key+"  "+row.toString()+"  "+row1.toString());}
-	  		    	
-	  		    	
+	  	
 	  		      } 	
 	  	         }
 	  	  		}
