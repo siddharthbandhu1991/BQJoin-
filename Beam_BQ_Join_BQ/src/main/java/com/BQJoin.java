@@ -113,17 +113,12 @@ public class BQJoin {
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
-	  		    		{
-	  		    	  		    		
-	  		    		for (int i = 0; i < 5 ; i++) 
+	  		    		{    		
+	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
-	  		    			
 	  		    			 row.set(col.getName(), a.get(col.getName()));
 	  		    			}
-	  		    		
-	  		    	
-	  		    		
 	  		    		c.output(key+"  "+row.toString());
 	  		    		}
 	  		    	}
