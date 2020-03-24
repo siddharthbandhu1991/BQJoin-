@@ -38,11 +38,10 @@ public class BQJoin {
 		// TODO Auto-generated method stub
 		final DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
 		DefineProperties.configurePipeLineOptions(options);
-		FileSystems.setDefaultPipelineOptions(options);
+		//FileSystems.setDefaultPipelineOptions(options);
 
 	  	final Pipeline pipeline = Pipeline.create(options);
-	  	
-	    	  		
+	  	 		
 	  	//PCollection<TableRow> tableRow1 = pipeline.apply(BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query1")));
 	  	//PCollection<TableRow> tableRow2 = pipeline.apply(BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query2")));
   		//tableRow1.apply("ConverToString",ParDo.of(new TableRowtoString()))
@@ -55,8 +54,6 @@ public class BQJoin {
 	  		        String.format("%s",
 	  		            row.get(key)))
 	  		    .withKeyType(TypeDescriptors.strings());
-	  	
-	
 	  	
 	  	PCollection<KV<String, TableRow>> table1Rows = pipeline
 	  		    .apply("ReadTable1",BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query1")))
@@ -78,23 +75,16 @@ public class BQJoin {
 	  	    //.and(table3Tag, table3Rows)
 	  	    .apply("joinkey", CoGroupByKey.create());
 	  	    
-	  	    
-	  	    
-	  	    
-	  	    //.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	
-	  	
-	  
 	  //Final cogroup Result
 	  	coGbkResult.apply("ProcessResults", 
 	  		    ParDo.of(new DoFn<KV<String, CoGbkResult>, TableRow>()
 	  	{
 
 			private static final long serialVersionUID = 1L;
-
 			@ProcessElement
 	  		public void processElement(ProcessContext c) throws Exception {
-	  	  {	
+	  	    {	
 	  		    KV<String, CoGbkResult> e = c.element();
 	  		    String key=c.element().getKey();
 	  		    CoGbkResult result =  e.getValue();
@@ -137,7 +127,7 @@ public class BQJoin {
   		    		
   		    		}
   		    	}
-	  		    	
+
 	  		  	//Right Outer Join
 	  		    	//if(row.isEmpty())	
 	  		    		//{c.output(row);}
