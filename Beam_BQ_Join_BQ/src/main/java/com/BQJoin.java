@@ -106,7 +106,9 @@ public class BQJoin {
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
 
 	  		  TableRow row = new TableRow();
+	  		  TableRow row1 = new TableRow();
 	  		  TableFieldSchema col = new TableFieldSchema();
+	  		  TableFieldSchema col1 = new TableFieldSchema();
 	  		  if(pt1Val != null & pt2Val != null) 
 	  		    {
 	  		    	
@@ -119,9 +121,27 @@ public class BQJoin {
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			 row.set(col.getName(), a.get(col.getName()));
 	  		    			}
-	  		    		c.output(key+"  "+row.toString());
+	  		    		
 	  		    		}
 	  		    	}
+	  		    	
+	  		  	for(TableRow b : pt2Val) 
+  		    	{
+  		    		if(b.values()!=null)
+  		    		{    		
+  		    		for (int i = 0; i < 1 ; i++) 
+  		    			{
+  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
+  		    			 row.set(col.getName(), b.get(col.getName()));
+  		    			}
+  		    		
+  		    		}
+  		    	}
+	  		    	
+	  		    	
+	  		  c.output(key+"  "+row.toString()+"  "+row1.toString());
+	  		    	
+	  		    	
 	  		      } 	
 	  	         }
 	  	  		}
