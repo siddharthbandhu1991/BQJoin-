@@ -107,8 +107,12 @@ public class BQJoin {
 
 	  		  TableRow row = new TableRow();
 	  		  TableRow row1 = new TableRow();
+	  		  
 	  		  TableFieldSchema col = new TableFieldSchema();
 	  		  TableFieldSchema col1 = new TableFieldSchema();
+	  		  
+	  		  int n=0;
+	  		  
 	  		  if(pt1Val != null & pt2Val != null) 
 	  		    {
 	  		    	
@@ -119,7 +123,12 @@ public class BQJoin {
 	  		    		for (int i = 0; i < 1 ; i++) 
 	  		    			{
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
+	  		    			 
+	  		    			 if(key==a.get(col.getName()).toString())
+	  		    				 n=n+1;
+	  		    			 
 	  		    			 row.set(col.getName(), a.get(col.getName()));
+	  		    			 
 	  		    			}
 	  		    		
 	  		    		}
@@ -131,15 +140,19 @@ public class BQJoin {
   		    		{    		
   		    		for (int i = 0; i < 1 ; i++) 
   		    			{
-  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
-  		    			 row1.set(col.getName(), b.get(col.getName()));
+  		    			 col1 = Table_Schema.getTableSchema().getFields().get(i);
+  		    			 
+  		    			if(key==b.get(col1.getName()).toString())
+ 		    				 n=n+1;
+  		    			 
+  		    			 row1.set(col1.getName(), b.get(col1.getName()));
   		    			}
   		    		
   		    		}
   		    	}
 	  		    	
-	  		    	
-	  		  c.output(key+"  "+row.toString()+"  "+row1.toString());
+	  		    	if(n==2)
+	  		    		c.output(key+"  "+row.toString()+"  "+row1.toString());
 	  		    	
 	  		    	
 	  		      } 	
