@@ -33,10 +33,10 @@ import com.google.api.services.bigquery.model.TableFieldSchema;
 import com.google.api.services.bigquery.model.TableRow;
 
 public class BQJoin {
-
+ 
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+		 // TODO Auto-generated method stub
 		final DataflowPipelineOptions options = PipelineOptionsFactory.as(DataflowPipelineOptions.class);
 		DefineProperties.configurePipeLineOptions(options);
 		//FileSystems.setDefaultPipelineOptions(options);
