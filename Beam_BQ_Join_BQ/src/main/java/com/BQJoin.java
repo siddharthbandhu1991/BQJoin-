@@ -1,6 +1,7 @@
 package com;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,6 +49,7 @@ public class BQJoin {
 		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));		
 	  	
 	  	String key = PropertyUtil.getProperty("dataflow.job.joinkey");
+
 	  	
 	  	WithKeys<String, TableRow> joinkey = WithKeys.of(
 	  		    (TableRow row) ->
@@ -62,6 +64,8 @@ public class BQJoin {
 	  	PCollection<KV<String, TableRow>> table2Rows = pipeline
 		  		.apply("ReadTable2",BigQueryIO.read().fromQuery(PropertyUtil.getProperty("dataflow.job.query2")))
 		  	    .apply("WithKeys", joinkey);
+	  	
+
 
 		final TupleTag<TableRow> table1Tag = new TupleTag<>();
 	  	final TupleTag<TableRow> table2Tag = new TupleTag<>();
@@ -74,7 +78,8 @@ public class BQJoin {
 	  	    .and(table2Tag, table2Rows)
 	  	    //.and(table3Tag, table3Rows)
 	  	    .apply("joinkey", CoGroupByKey.create());
-	  	    
+	  	
+
 	  	
 	  //Final coGroup Result
 	  	coGbkResult.apply("ProcessResults", 
@@ -88,6 +93,7 @@ public class BQJoin {
 	  		    KV<String, CoGbkResult> e = c.element();
 	  		    String key=c.element().getKey();
 	  		    CoGbkResult result =  e.getValue();
+	  		
 	  		    
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
@@ -97,16 +103,16 @@ public class BQJoin {
 	  		  
 	  		    TableFieldSchema col = new TableFieldSchema();
 	  		    TableFieldSchema col1 = new TableFieldSchema();
-	  		  
+	  		
 	  			  		  
-	  		  if(pt1Val != null & pt2Val != null) 
+	  		  if(pt1Val != null && pt2Val != null) 
 	  		    {
 	  		    	
 	  		    	for(TableRow a : pt1Val) 
 	  		    	{
 	  		    		if(a.values()!=null)
-	  		    		{    		
-	  		    		for (int i = 0; i < 5 ; i++) 
+	  		    		{ 	
+	  		    			for (int i = 0; i < 5 ; i++) 
 	  		    			{
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			 row.set(col.getName(), a.get(col.getName()));
