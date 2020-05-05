@@ -25,7 +25,8 @@ public final class DefineProperties
 		options.setStagingLocation(PropertyUtil.getProperty("dataflow.job.stg.location"));
 		
 		options.setMaxNumWorkers(Integer.parseInt(PropertyUtil.getProperty("dataflow.job.worker")));
-
+		options.setServiceAccount("owner-677@causal-root-268810.iam.gserviceaccount.com");
+		options.setRegion("us-east1");
 		options.setRunner(DataflowRunner.class);
 
 

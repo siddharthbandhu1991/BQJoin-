@@ -13,13 +13,12 @@ public class Table_Schema
 	  static TableSchema getTableSchema() {
 		   List<TableFieldSchema> fields = new ArrayList<TableFieldSchema>();
 	        
-	        fields.add(new TableFieldSchema().setName("unique_key").setType("STRING"));
-	        fields.add(new TableFieldSchema().setName("complaint_type").setType("STRING"));
-	        fields.add(new TableFieldSchema().setName("complaint_description").setType("STRING"));
-	        fields.add(new TableFieldSchema().setName("status").setType("STRING"));
-	        fields.add(new TableFieldSchema().setName("status_change_date").setType("STRING"));
-
-	        return new TableSchema().setFields(fields);
+	        fields.add(new TableFieldSchema().setName("trip_id").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("shipper_id").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("start_station_id").setType("STRING"));
+	        fields.add(new TableFieldSchema().setName("start_station_name").setType("STRING"));
+	        
+	        return new TableSchema().setFields(fields); 
 	    }
 
 

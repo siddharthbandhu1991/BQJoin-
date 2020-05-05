@@ -48,13 +48,15 @@ public class BQJoin {
   		//tableRow1.apply("ConverToString",ParDo.of(new TableRowtoString()))
 		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));		
 	  	
-	  	String key = PropertyUtil.getProperty("dataflow.job.joinkey");
-
-	  	
+	  	String key1 = PropertyUtil.getProperty("dataflow.job.joinkey1");
+	  	String key2 = PropertyUtil.getProperty("dataflow.job.joinkey2");
+	  		  	
 	  	WithKeys<String, TableRow> joinkey = WithKeys.of(
 	  		    (TableRow row) ->
-	  		        String.format("%s",
-	  		            row.get(key)))
+	  		        String.format("%s#%s",
+	  		            row.get(key1)
+	  		            ,row.get(key2)
+	  		            ))
 	  		    .withKeyType(TypeDescriptors.strings());
 	  	
 	  	PCollection<KV<String, TableRow>> table1Rows = pipeline
@@ -93,7 +95,7 @@ public class BQJoin {
 	  		    KV<String, CoGbkResult> e = c.element();
 	  		    String key=c.element().getKey();
 	  		    CoGbkResult result =  e.getValue();
-	  		
+	  		    
 	  		    
 	  		    List<TableRow> pt1Val = (List<TableRow>) result.getAll(table1Tag);
 	  		    List<TableRow> pt2Val = (List<TableRow>) result.getAll(table2Tag);
@@ -112,7 +114,7 @@ public class BQJoin {
 	  		    	{
 	  		    		if(a.values()!=null)
 	  		    		{ 	
-	  		    			for (int i = 0; i < 5 ; i++) 
+	  		    			for (int i = 0; i < 4 ; i++) 
 	  		    			{
 	  		    			 col = Table_Schema.getTableSchema().getFields().get(i);
 	  		    			 row.set(col.getName(), a.get(col.getName()));
@@ -124,7 +126,7 @@ public class BQJoin {
 	  		  	   	{
 	  		  		   if(b.values()!=null)
 	  		  		   {    		
-	  		  			   for (int i = 0; i < 5 ; i++) 
+	  		  			   for (int i = 0; i < 4 ; i++) 
 	  		  			   {
 	  		  				   col1 = Table_Schema.getTableSchema().getFields().get(i);
 	  		  				   row1.set(col1.getName(), b.get(col1.getName()));
@@ -143,14 +145,14 @@ public class BQJoin {
 	  		    //Inner Join
   		        	if(!row.isEmpty() && !row1.isEmpty())	
   		    	    	{c.output(row);}
-	   		      } 	
-	  	         }
-	  	  		}
+	  		  	
+	  	         
+	  	  		}}}
 	  	  }))
 	  		//.apply(TextIO.write().to(PropertyUtil.getProperty("dataflow.job.gcswritefile")));
 	  	  .apply("WriteToBq", BigQueryIO.writeTableRows()
 	             .to(PropertyUtil.getProperty("dataflow.job.tablename"))
-	              .withWriteDisposition(WriteDisposition.WRITE_TRUNCATE)
+	             .withWriteDisposition(WriteDisposition.WRITE_TRUNCATE)
 	               .withCreateDisposition(CreateDisposition.CREATE_NEVER));
 		  	
 	  	pipeline.run().waitUntilFinish();
