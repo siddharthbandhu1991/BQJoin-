@@ -32,13 +32,13 @@ def run():
     with beam.Pipeline() as pipeline:
         # Load data from first tab
         data_from_tab1 = (pipeline
-                          | 'Read Tab 1 Data' >> beam.Create([{'file_path': 'Sample_data.xlsx', 'sheet_name': 'Clinical Notes'}])
+                          | 'Read Tab 1 Data' >> beam.Create([{'file_path': 'Sample_data.xlsx', 'sheet_name': 'Notes'}])
                           | 'Load Tab 1 Data' >> beam.ParDo(LoadExcelData())
                           | 'Convert to key,value pair tab 1' >> beam.ParDo(ConvertKVPair()))
 
         # Load data from second tab
         data_from_tab2 = (pipeline
-                          | 'Read Tab 2 Data' >> beam.Create([{'file_path': 'Sample_data.xlsx', 'sheet_name': 'ICD Diagnosis'}])
+                          | 'Read Tab 2 Data' >> beam.Create([{'file_path': 'Sample_data.xlsx', 'sheet_name': 'Diagnosis'}])
                           | 'Load Tab 2 Data' >> beam.ParDo(LoadExcelData())
                           | 'Convert to key,value pair tab 2' >> beam.ParDo(ConvertKVPair()))
 
